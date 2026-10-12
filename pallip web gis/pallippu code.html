@@ -1,0 +1,635 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#164e38">
+
+  <title>Pallippuram Grama Panchayat | WebGIS</title>
+
+  <style>
+    :root {
+      --green: #164e38;
+      --dark: #103b2c;
+      --light-green: #eaf1e8;
+      --cream: #f8f7f1;
+      --gold: #d5a94d;
+      --white: #ffffff;
+      --text: #26372d;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 85px;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+    }
+
+    .container {
+      width: 92%;
+      max-width: 1150px;
+      margin: auto;
+    }
+
+    .topbar {
+      background: var(--dark);
+      color: white;
+      padding: 8px 0;
+      font-size: 13px;
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: white;
+      border-bottom: 1px solid #e3e8e2;
+    }
+
+    .nav-inner {
+      min-height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      color: var(--green);
+      font-size: 17px;
+      font-weight: bold;
+    }
+
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .nav-links a {
+      color: var(--green);
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    .nav-links a:hover {
+      color: #b18428;
+    }
+
+    .hero {
+      padding: 85px 0;
+      color: white;
+      background:
+        linear-gradient(100deg,
+          rgba(16, 59, 44, 0.96),
+          rgba(22, 78, 56, 0.78)),
+        url("fort.jpeg") center/cover no-repeat;
+    }
+
+    .hero-content {
+      max-width: 750px;
+    }
+
+    .eyebrow {
+      font-size: 13px;
+      font-weight: bold;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .hero h1 {
+      font-size: clamp(36px, 6vw, 60px);
+      line-height: 1.12;
+      margin: 18px 0;
+    }
+
+    .hero p {
+      max-width: 680px;
+    }
+
+    .btn {
+      display: inline-block;
+      background: var(--gold);
+      color: var(--dark);
+      padding: 12px 20px;
+      margin: 10px 8px 0 0;
+      border-radius: 7px;
+      font-weight: bold;
+      transition: 0.2s;
+    }
+
+    .btn:hover {
+      background: #ebc66e;
+      transform: translateY(-2px);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1px solid white;
+      color: white;
+    }
+
+    .btn-outline:hover {
+      background: white;
+      color: var(--green);
+    }
+
+    section {
+      padding: 65px 0;
+    }
+
+    .heading {
+      text-align: center;
+      max-width: 750px;
+      margin: 0 auto 35px;
+    }
+
+    .heading h2,
+    .about-content h2 {
+      color: var(--green);
+      font-size: clamp(27px, 4vw, 36px);
+      line-height: 1.25;
+      margin: 8px 0 14px;
+    }
+
+    .heading .eyebrow {
+      color: #66806b;
+    }
+
+    .facts {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .fact,
+    .card {
+      background: white;
+      padding: 25px;
+      border-radius: 14px;
+      box-shadow: 0 5px 22px rgba(16, 59, 44, 0.08);
+    }
+
+    .fact h3,
+    .card h3 {
+      color: var(--green);
+      margin-top: 0;
+    }
+
+    .fact-icon {
+      font-size: 30px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 38px;
+      align-items: center;
+    }
+
+    .photo {
+      display: block;
+      width: 100%;
+      height: 340px;
+      object-fit: cover;
+      border-radius: 14px;
+      background: #e4ebe2;
+    }
+
+    .about-content p {
+      margin-bottom: 16px;
+    }
+
+    .location-section {
+      background: white;
+    }
+
+    .map-section {
+      background: var(--cream);
+    }
+
+    .map-frame {
+      width: 100%;
+      height: 560px;
+      display: block;
+      border: 0;
+      border-radius: 10px;
+      background: #e4ebe2;
+    }
+
+    .map-note {
+      font-size: 13px;
+      color: #5e6d62;
+      margin-top: 15px;
+    }
+
+    .map-actions {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .resource-section {
+      background: var(--light-green);
+    }
+
+    .resource-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 22px;
+    }
+
+    .resource-link {
+      color: var(--green);
+      font-weight: bold;
+    }
+
+    footer {
+      background: var(--dark);
+      color: white;
+      padding: 35px 0;
+    }
+
+    footer h3 {
+      margin-top: 0;
+    }
+
+    footer a {
+      color: #e6c775;
+    }
+
+    .footer-inner {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 25px;
+    }
+
+    @media (max-width: 760px) {
+      .nav-inner {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 16px 0;
+      }
+
+      .nav-links {
+        gap: 12px;
+      }
+
+      .nav-links a {
+        font-size: 13px;
+      }
+
+      .hero {
+        padding: 58px 0;
+      }
+
+      section {
+        padding: 45px 0;
+      }
+
+      .facts,
+      .grid,
+      .resource-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .photo {
+        height: 260px;
+      }
+
+      .map-frame {
+        height: 420px;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .brand {
+        font-size: 15px;
+      }
+
+      .nav-links {
+        gap: 8px 12px;
+      }
+
+      .map-frame {
+        height: 360px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Government information bar -->
+  <div class="topbar">
+    <div class="container">
+      Government of Kerala · Local Geography and WebGIS Project
+    </div>
+  </div>
+
+  <!-- Navigation -->
+  <nav>
+    <div class="container nav-inner">
+      <a class="brand" href="#home">
+        PALLIPPURAM GRAMA PANCHAYAT
+      </a>
+
+      <div class="nav-links">
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#location">Location</a>
+        <a href="#mapsection">WebGIS Map</a>
+        <a href="#resources">Resources</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero section -->
+  <header class="hero" id="home">
+    <div class="container hero-content">
+      <p class="eyebrow">
+        Local Governance · Geographic Information
+      </p>
+
+      <h1>
+        Discover Pallippuram<br>
+        Through Maps.
+      </h1>
+
+      <p>
+        Explore the geographical setting, local resources,
+        settlements and spatial information of Pallippuram
+        Grama Panchayat in Ernakulam district, Kerala.
+      </p>
+
+      <a class="btn" href="#mapsection">
+        Explore Interactive Map ↗
+      </a>
+
+      <a class="btn btn-outline" href="#about">
+        About the Panchayat
+      </a>
+    </div>
+  </header>
+
+  <!-- Overview -->
+  <section>
+    <div class="container">
+      <div class="facts">
+
+        <article class="fact">
+          <div class="fact-icon">📍</div>
+          <h3>Geographical Location</h3>
+          <p>
+            Explore Pallippuram in Ernakulam district,
+            Kerala, and its surrounding geographical setting.
+          </p>
+        </article>
+
+        <article class="fact">
+          <div class="fact-icon">🗺️</div>
+          <h3>Interactive WebGIS</h3>
+          <p>
+            Access the published mapping platform to
+            explore the available geographic information.
+          </p>
+        </article>
+
+        <article class="fact">
+          <div class="fact-icon">🌿</div>
+          <h3>Local Resources</h3>
+          <p>
+            Learn about local landscapes, settlements
+            and geographic features.
+          </p>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section id="about">
+    <div class="container grid">
+
+      <div>
+        <img
+          class="photo"
+          src="D:\LAYOUTS TASK\WEB GIS\fort.jpeg"
+          alt="Pallippuram Fort and surrounding area"
+          loading="lazy">
+      </div>
+
+      <div class="about-content">
+        <p class="eyebrow">About the Panchayat</p>
+
+        <h2>Understanding Pallippuram</h2>
+
+        <p>
+          Pallippuram Grama Panchayat is located in
+          Ernakulam district, Kerala. Its geographical
+          setting, settlements and local resources are
+          relevant to understanding the region and
+          supporting local-level planning.
+        </p>
+
+        <p>
+          This WebGIS website provides a digital platform
+          to explore geographic information and access
+          the published interactive map.
+        </p>
+
+        <a class="btn" href="#mapsection">
+          View Geographic Map
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Location -->
+  <section class="location-section" id="location">
+    <div class="container">
+
+      <div class="heading">
+        <p class="eyebrow">Geographical Setting</p>
+        <h2>Locate Pallippuram</h2>
+        <p>
+          Explore the study area and its surrounding
+          geographical features.
+        </p>
+      </div>
+
+      <div class="card">
+        <img
+          class="photo"
+          src="D:\LAYOUTS TASK\WEB GIS\studt area.jpeg"
+          alt="Pallippuram study area"
+          loading="lazy">
+
+        <p>
+          <strong>Study area:</strong>
+          Pallippuram, Ernakulam district, Kerala, India.
+        </p>
+
+        <a
+          class="btn"
+          href="https://www.google.com/maps/search/?api=1&query=Pallippuram%2C+Ernakulam%2C+Kerala"
+          target="_blank"
+          rel="noopener noreferrer">
+          Locate on Google Maps ↗
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Published WebGIS platform -->
+  <section class="map-section" id="mapsection">
+    <div class="container">
+
+      <div class="heading">
+        <p class="eyebrow">Explore Spatial Information</p>
+        <h2>Interactive Geographic Map</h2>
+        <p>
+          Use the published Pallippuram WebGIS platform
+          below to explore its available map layers
+          and geographic information.
+        </p>
+      </div>
+
+      <div class="card">
+
+        <iframe
+          class="map-frame"
+          src="https://malavikaks8330.github.io/Pallippuram-panchayat1/"
+          title="Pallippuram Grama Panchayat WebGIS"
+          loading="lazy"
+          allowfullscreen>
+        </iframe>
+
+        <div class="map-actions">
+          <a
+            class="btn"
+            href="https://malavikaks8330.github.io/Pallippuram-panchayat1/"
+            target="_blank"
+            rel="noopener noreferrer">
+            Open Full Interactive Map ↗
+          </a>
+        </div>
+
+        <p class="map-note">
+          If the map does not load inside this page,
+          use the button above to open the WebGIS platform
+          in a new tab. Map boundaries and locations
+          should be verified against official sources.
+        </p>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Resources -->
+  <section class="resource-section" id="resources">
+    <div class="container">
+
+      <div class="heading">
+        <p class="eyebrow">Digital Mapping</p>
+        <h2>Maps and Resources</h2>
+        <p>
+          Access the interactive mapping platform
+          and external geographic resources.
+        </p>
+      </div>
+
+      <div class="resource-grid">
+
+        <article class="card">
+          <h3>🗺️ Panchayat WebGIS</h3>
+          <p>
+            Open the published geographic information
+            system for map exploration.
+          </p>
+
+          <a
+            class="resource-link"
+            href="https://malavikaks8330.github.io/Pallippuram-panchayat1/"
+            target="_blank"
+            rel="noopener noreferrer">
+            Open WebGIS Platform ↗
+          </a>
+        </article>
+
+        <article class="card">
+          <h3>🌍 OpenStreetMap</h3>
+          <p>
+            Explore an external geographic map of
+            Pallippuram and its surroundings.
+          </p>
+
+          <a
+            class="resource-link"
+            href="https://www.openstreetmap.org/search?query=Pallippuram%2C%20Kerala"
+            target="_blank"
+            rel="noopener noreferrer">
+            Explore OpenStreetMap ↗
+          </a>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-inner">
+
+      <div>
+        <h3>Pallippuram Grama Panchayat WebGIS</h3>
+        <p>Ernakulam district, Kerala, India</p>
+        <p>
+          A local geography and digital mapping project.
+        </p>
+      </div>
+
+      <div>
+        <p><a href="#home">Home</a></p>
+        <p><a href="#about">About</a></p>
+        <p><a href="#mapsection">Interactive Map</a></p>
+        <p><a href="#resources">Resources</a></p>
+      </div>
+
+    </div>
+
+    <div class="container">
+      <hr style="border-color:#456657; margin-top:25px;">
+
+      <p style="font-size:13px;">
+        External map services retain their respective
+        data and attribution requirements.
+      </p>
+    </div>
+  </footer>
+
+</body>
+</html>
